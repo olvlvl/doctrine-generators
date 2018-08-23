@@ -1,0 +1,30 @@
+sudo: false
+
+cache:
+  directories:
+    - $COMPOSER_CACHE_DIR
+    - $HOME/.composer/cache
+    - $TRAVIS_BUILD_DIR/build
+
+language: php
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+env:
+  - MONGODB_SERVER=127.0.0.1:27017
+
+services:
+  - mongodb
+
+before_install:
+  - pecl channel-update pecl.php.net
+  - pecl install -f mongodb-1.5.2
+
+before_script:
+  - if [[ $TRAVIS_PHP_VERSION != "7.0" ]]; then phpenv config-rm xdebug.ini; fi
+
+script:
+  - if [[ $TRAVIS_PHP_VERSION == "7.0" ]]; then make test-coveralls; else make test; fi

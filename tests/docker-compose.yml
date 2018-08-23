@@ -1,0 +1,15 @@
+---
+version: "2.1"
+services:
+  app:
+    build: .
+    environment:
+      MONGODB_SERVER: mongodb:27017
+    volumes:
+    - ..:/app:delegated
+    depends_on:
+    - mongodb
+    working_dir: /app
+
+  mongodb:
+    image: mongo:3.4.6
