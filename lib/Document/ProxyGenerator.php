@@ -17,29 +17,19 @@ class ProxyGenerator
     use EnsureDirectory;
 
     /**
-     * @var DocumentManager
-     */
-    private $documentManager;
-
-    public function __construct(DocumentManager $documentManager)
-    {
-        $this->documentManager = $documentManager;
-    }
-
-    /**
      * @return string[]
      */
-    public function __invoke(): array
+    public function __invoke(DocumentManager $documentManager): array
     {
-        $metadataCollection = $this->getMetadataCollection();
+        $metadataCollection = $this->getMetadataCollection($documentManager);
 
         if (count($metadataCollection) === 0) {
             return [];
         }
 
-        $this->getProxyFactory()->generateProxyClasses(
+        $this->getProxyFactory($documentManager)->generateProxyClasses(
             $metadataCollection,
-            $this->ensureDirectory($this->getProxyDir())
+            $this->ensureDirectory($this->getProxyDir($documentManager))
         );
 
         return array_map(function ($metadata) {
@@ -47,18 +37,18 @@ class ProxyGenerator
         }, $metadataCollection);
     }
 
-    private function getMetadataCollection(): array
+    private function getMetadataCollection(DocumentManager $documentManager): array
     {
-        return $this->documentManager->getMetadataFactory()->getAllMetadata();
+        return $documentManager->getMetadataFactory()->getAllMetadata();
     }
 
-    private function getProxyDir(): string
+    private function getProxyDir(DocumentManager $documentManager): string
     {
-        return $this->documentManager->getConfiguration()->getProxyDir();
+        return $documentManager->getConfiguration()->getProxyDir();
     }
 
-    private function getProxyFactory(): ProxyFactory
+    private function getProxyFactory(DocumentManager $documentManager): ProxyFactory
     {
-        return $this->documentManager->getProxyFactory();
+        return $documentManager->getProxyFactory();
     }
 }

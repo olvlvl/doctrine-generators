@@ -9,9 +9,6 @@
 
 namespace olvlvl\DoctrineGenerators\Document;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataFactory;
-
 /**
  * @group integration
  */
@@ -19,9 +16,9 @@ class HydratorGeneratorTest extends TestCase
 {
     public function testGenerator()
     {
-        $classes = (new HydratorGenerator(
+        $classes = (new HydratorGenerator)(
             $this->createDocumentManager($config = $this->createConfig())
-        ))();
+        );
 
         $this->assertInternalType('array', $classes);
 
@@ -38,10 +35,6 @@ class HydratorGeneratorTest extends TestCase
      */
     public function shouldReturnEmptyArrayWhenThereIsNoMetadata()
     {
-        $generator = new HydratorGenerator(
-            $this->aDocumentManagerWithEmptyMetadata()
-        );
-
-        $this->assertSame([], $generator());
+        $this->assertSame([], (new HydratorGenerator)($this->aDocumentManagerWithEmptyMetadata()));
     }
 }

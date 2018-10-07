@@ -17,29 +17,19 @@ class HydratorGenerator
     use EnsureDirectory;
 
     /**
-     * @var DocumentManager
-     */
-    private $documentManager;
-
-    public function __construct(DocumentManager $documentManager)
-    {
-        $this->documentManager = $documentManager;
-    }
-
-    /**
      * @return string[]|null
      */
-    public function __invoke(): array
+    public function __invoke(DocumentManager $documentManager): array
     {
-        $metadataCollection = $this->getMetadataCollection();
+        $metadataCollection = $this->getMetadataCollection($documentManager);
 
         if (count($metadataCollection) === 0) {
             return [];
         }
 
-        $this->getHydratorFactory()->generateHydratorClasses(
+        $this->getHydratorFactory($documentManager)->generateHydratorClasses(
             $metadataCollection,
-            $this->ensureDirectory($this->getHydratorDir())
+            $this->ensureDirectory($this->getHydratorDir($documentManager))
         );
 
         return array_map(function ($metadata) {
@@ -47,18 +37,18 @@ class HydratorGenerator
         }, $metadataCollection);
     }
 
-    private function getMetadataCollection(): array
+    private function getMetadataCollection(DocumentManager $documentManager): array
     {
-        return $this->documentManager->getMetadataFactory()->getAllMetadata();
+        return $documentManager->getMetadataFactory()->getAllMetadata();
     }
 
-    private function getHydratorDir(): string
+    private function getHydratorDir(DocumentManager $documentManager): string
     {
-        return $this->documentManager->getConfiguration()->getHydratorDir();
+        return $documentManager->getConfiguration()->getHydratorDir();
     }
 
-    private function getHydratorFactory(): HydratorFactory
+    private function getHydratorFactory(DocumentManager $documentManager): HydratorFactory
     {
-        return $this->documentManager->getHydratorFactory();
+        return $documentManager->getHydratorFactory();
     }
 }

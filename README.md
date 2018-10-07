@@ -33,8 +33,8 @@ $config->setAutoGenerateHydratorClasses(Configuration::AUTOGENERATE_NEVER);
 
 /* @var \Doctrine\ODM\MongoDB\DocumentManager $dm */
 
-$classes = (new HydratorGenerator($dm))();
-$classes = (new ProxyGenerator($dm))();
+$classes = (new HydratorGenerator)($dm);
+$classes = (new ProxyGenerator)($dm);
 ```
 
 
