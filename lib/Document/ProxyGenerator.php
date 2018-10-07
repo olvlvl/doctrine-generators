@@ -10,6 +10,7 @@
 namespace olvlvl\DoctrineGenerators\Document;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Proxy\ProxyFactory;
 
 class ProxyGenerator
@@ -32,7 +33,7 @@ class ProxyGenerator
             $this->ensureDirectory($this->getProxyDir($documentManager))
         );
 
-        return array_map(function ($metadata) {
+        return array_map(function (ClassMetadata $metadata) {
             return $metadata->name;
         }, $metadataCollection);
     }

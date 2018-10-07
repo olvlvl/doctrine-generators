@@ -11,6 +11,7 @@ namespace olvlvl\DoctrineGenerators\Document;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Hydrator\HydratorFactory;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 
 class HydratorGenerator
 {
@@ -32,7 +33,7 @@ class HydratorGenerator
             $this->ensureDirectory($this->getHydratorDir($documentManager))
         );
 
-        return array_map(function ($metadata) {
+        return array_map(function (ClassMetadata $metadata) {
             return $metadata->name;
         }, $metadataCollection);
     }
