@@ -35,9 +35,17 @@ class ProxyGenerator
         }, $metadataCollection);
     }
 
+    /**
+     * @return ClassMetadata[]
+     */
     private function getMetadataCollection(DocumentManager $documentManager): array
     {
-        return $documentManager->getMetadataFactory()->getAllMetadata();
+        return array_filter(
+            $documentManager->getMetadataFactory()->getAllMetadata(),
+            function (ClassMetadata $metadata) {
+                return !$metadata->isEmbeddedDocument;
+            }
+        );
     }
 
     private function getProxyFactory(DocumentManager $documentManager): ProxyFactory
