@@ -1,5 +1,5 @@
 # https://hub.docker.com/_/php/
-FROM php:7.0-fpm-alpine
+FROM php:7.2-alpine
 
 RUN apk add --no-cache make openssl-dev && \
     apk add --no-cache --virtual .php-ext-deps autoconf g++ pcre-dev && \
@@ -8,6 +8,16 @@ RUN apk add --no-cache make openssl-dev && \
     docker-php-ext-enable mongodb && \
     docker-php-source delete && \
     apk del .php-ext-deps
+
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+RUN echo $'\
+xdebug.remote_autostart=1\n\
+xdebug.remote_enable=1\n\
+xdebug.remote_host=host.docker.internal\n\
+' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Composer
 ENV COMPOSER_ALLOW_SUPERUSER 1

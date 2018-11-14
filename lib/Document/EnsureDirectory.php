@@ -14,7 +14,7 @@ trait EnsureDirectory
     private function ensureDirectory(string $dir): string
     {
         if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
+            mkdir($dir, 0705, true);
         }
 
         $realpath = realpath($dir);
@@ -22,11 +22,11 @@ trait EnsureDirectory
         // @codeCoverageIgnoreStart
         if (!file_exists($realpath)) {
             throw new \InvalidArgumentException(
-                "Hydrators destination directory `$realpath` does not exist."
+                "Destination directory `$realpath` does not exist."
             );
         } elseif (!is_writable($realpath)) {
             throw new \InvalidArgumentException(
-                "Hydrators destination directory `$realpath` does not have write permissions."
+                "Destination directory `$realpath` does not have write permissions."
             );
         }
         // @codeCoverageIgnoreEnd

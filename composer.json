@@ -23,7 +23,7 @@
 	},
 	"prefer-stable": true,
 	"require": {
-		"php": ">=7.0"
+		"php": ">=7.2"
 	},
 	"autoload": {
 		"psr-4": {
@@ -37,9 +37,10 @@
 	},
 	"require-dev": {
 		"alcaeus/mongo-php-adapter": "^1.1",
-		"doctrine/mongodb-odm": "^1.2",
-		"symfony/yaml": "^3.4"
+		"doctrine/mongodb-odm": "dev-master as 2.0",
+		"olvlvl/doctrine-yaml-driver": "dev-master"
 	},
+	"minimum-stability": "dev",
 	"config": {
 		"platform": {
 			"ext-mongo": "1.6.16"

@@ -9,7 +9,9 @@
 
 namespace olvlvl\DoctrineGenerators\Document;
 
-use Doctrine\Common\Proxy\Proxy;
+use ProxyManager\FileLocator\FileLocator;
+use function glob;
+use function preg_replace;
 
 /**
  * @group integration
@@ -25,10 +27,17 @@ class ProxyGeneratorTest extends TestCase
         $this->assertInternalType('array', $classes);
 
         $dir = $config->getProxyDir();
+        $locator = new FileLocator($dir);
 
         foreach ($classes as $class) {
-            $filename = Proxy::MARKER . str_replace('\\', '', $class) . '.php';
-            $this->assertFileExists("$dir/$filename");
+            $proxyClass = $config
+                ->getProxyManagerConfiguration()
+                ->getClassNameInflector()
+                ->getProxyClassName($class, []);
+            $proxyClass = $locator->getProxyFileName($proxyClass);
+            $proxyClass = preg_replace('/Generated.+/', '', $proxyClass);
+
+            $this->assertCount(1, glob($proxyClass.'*'));
         }
     }
 

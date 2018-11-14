@@ -15,10 +15,8 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 
 class HydratorGenerator
 {
-    use EnsureDirectory;
-
     /**
-     * @return string[]|null
+     * @return string[]
      */
     public function __invoke(DocumentManager $documentManager): array
     {
@@ -30,7 +28,7 @@ class HydratorGenerator
 
         $this->getHydratorFactory($documentManager)->generateHydratorClasses(
             $metadataCollection,
-            $this->ensureDirectory($this->getHydratorDir($documentManager))
+            $this->getHydratorDir($documentManager)
         );
 
         return array_map(function (ClassMetadata $metadata) {
