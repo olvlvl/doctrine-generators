@@ -8,8 +8,8 @@
 
 __olvlvl/doctrine-generators__ provides generators for [Doctrine][]'s hydrators and proxies.
 
-You can use these generators to create the hydrators and proxies required by your application
-before building its artifact or container, so its ready to be used as soon as it's deployed.
+You can use these generators to create the hydrators and proxies required by your application before
+building its artifact or container image, so it's ready to be used as soon as it's deployed.
 
 **Disclaimer**: Only MongoDB documents are currently supported.
 
