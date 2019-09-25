@@ -9,15 +9,15 @@
 
 namespace olvlvl\DoctrineGenerators\Document;
 
+use Doctrine\Common\Persistence\Mapping\AbstractClassMetadataFactory;
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataFactory;
+use Doctrine\ODM\MongoDB\Mapping\Driver\SimplifiedXmlDriver;
 use MongoDB\Client;
-use olvlvl\DoctrineYamlDriver\MongoDB\SimplifiedYamlDriver;
 use function getenv;
 use function realpath;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     use EnsureDirectory;
 
@@ -65,7 +65,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $config->setAutoGenerateHydratorClasses(Configuration::AUTOGENERATE_FILE_NOT_EXISTS);
         $config->setDefaultDB($database);
         $config->setMetadataDriverImpl(
-            new SimplifiedYamlDriver([ __DIR__ . '/dcm' => __NAMESPACE__ ])
+            new SimplifiedXmlDriver([ __DIR__ . '/dcm' => __NAMESPACE__ ])
         );
 
         return $config;
@@ -73,7 +73,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function aDocumentManagerWithEmptyMetadata(): DocumentManager
     {
-        $factory = $this->prophesize(ClassMetadataFactory::class);
+        $factory = $this->prophesize(AbstractClassMetadataFactory::class);
         $factory->getAllMetadata()->willReturn([]);
 
         $documentManager = $this->prophesize(DocumentManager::class);

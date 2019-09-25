@@ -4,7 +4,6 @@ PACKAGE_NAME = olvlvl/doctrine-generators
 PACKAGE_VERSION = 0.1
 PHPUNIT_VERSION = phpunit-7.phar
 PHPUNIT = build/$(PHPUNIT_VERSION)
-#PHPUNIT = vendor/bin/phpunit
 PHPUNIT_COVERAGE=phpdbg -qrr $(PHPUNIT) -d memory_limit=-1
 
 # do not edit the following lines
