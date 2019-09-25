@@ -36,9 +36,7 @@
 		}
 	},
 	"require-dev": {
-		"alcaeus/mongo-php-adapter": "^1.1",
-		"doctrine/mongodb-odm": "dev-master as 2.0",
-		"olvlvl/doctrine-yaml-driver": "dev-master"
+		"doctrine/mongodb-odm": "2.0.0-rc1 as 2.0"
 	},
 	"minimum-stability": "dev",
 	"config": {

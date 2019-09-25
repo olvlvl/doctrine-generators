@@ -1,6 +1,0 @@
-olvlvl\DoctrineGenerators\Document\Sample:
-  fields:
-    id:
-      id: true
-    title:
-      type: string
